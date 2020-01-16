@@ -1,0 +1,14 @@
+version: "3.5"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SERVER_PORT: 3000
+      # WAITFORIT_HOST: mongo
+    # volumes:
+    #   - ./:/server/
+    ports:
+      - "3000:3000"
