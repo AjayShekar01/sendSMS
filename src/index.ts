@@ -5,7 +5,8 @@ const port = 3000;
 
 app.get('/', (req, res) => {
   // res.send("The sedulous hyena ate the antelope!");
-  res.send('The Hyena ate the antelope!');
+  res.send('The lion ate the antelope!');
+  console.log('hello');
 });
 // const reallyLongArg = () => {};
 // const omgSoManyParameters = () => {

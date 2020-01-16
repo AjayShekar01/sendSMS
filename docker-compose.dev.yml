@@ -2,6 +2,7 @@ version: "3.5"
 
 services:
   web:
+    image: app:dev
     build:
       context: .
       dockerfile: dev.dockerfile
@@ -10,7 +11,7 @@ services:
       # WAITFORIT_HOST: mongo
     # command: npm run debug
     volumes:
-      - ./:/server/
+      - ./:/server
     ports:
       - "3000:3000"
       - "9222:9222"

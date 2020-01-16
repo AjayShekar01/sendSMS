@@ -27,4 +27,4 @@ RUN chmod +x scripts/*
 
 # CMD ["bash","/server/scripts/startup.sh"]
 # CMD ["bash","scripts/startup.sh"]
-CMD ["./scripts/startup.sh"]
+CMD ["bash", "scripts/startup-dev.sh"]

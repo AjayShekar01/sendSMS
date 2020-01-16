@@ -4,7 +4,11 @@
 # ./scripts/wait-for-it.sh --timeout=3600 ${DB_HOST}:${DB_PORT}
 # ./scripts/wait-for-it.sh --timeout=3600 ${WAITFORIT_HOST}:${WAITFORIT_PORT}
 # ./wait-for-it.sh --timeout=3600 ${SMARTAUTHZ_HOST}:3306
-if [[ -z "${WAITFORIT}" ]]; then
+
+if [ -z ${WAITFORIT+x} ]; then 
+  echo "WAITFORIT is not set"; 
+else 
+  # echo "var is set to '$var'"; 
   ./scripts/wait-for-it.sh --timeout=3600 ${WAITFORIT}
 fi
 

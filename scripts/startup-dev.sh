@@ -5,7 +5,10 @@
 # ./scripts/wait-for-it.sh --timeout=3600 ${WAITFORIT_HOST}:${WAITFORIT_PORT}
 # ./scripts/wait-for-it.sh --timeout=3600 ${WAITFORIT}
 # ./wait-for-it.sh --timeout=3600 ${SMARTAUTHZ_HOST}:3306
-if [[ -z "${WAITFORIT}" ]]; then
+if [ -z ${WAITFORIT+x} ]; then 
+  echo "WAITFORIT is not set"; 
+else 
+  # echo "var is set to '$var'"; 
   ./scripts/wait-for-it.sh --timeout=3600 ${WAITFORIT}
 fi
 
@@ -13,5 +16,7 @@ fi
 # pm2-runtime index.js
 # pm2-runtime wellofhir.config.js
 # pm2-runtime ecosystem.config.js
+pwd
+ls
 npm run debug
 
