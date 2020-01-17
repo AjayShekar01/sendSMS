@@ -11,7 +11,26 @@ services:
       # WAITFORIT_HOST: mongo
     # command: npm run debug
     volumes:
-      - ./:/server
+      - ./:/server/app
+      - ./mount-data:/server/data
     ports:
       - "3000:3000"
       - "9222:9222"
+    # configs:
+    #   - source: app_configs
+    #     target: /run/configs/app_configs
+    secrets:
+      - app_secrets
+      - sa_key
+      - app_configs
+# configs:
+#   app_configs:
+#     file: ./.configs.example/app_configs.yml
+secrets:
+  app_secrets:
+    file: ./.secrets.example/app_secrets.yml
+  sa_key:
+    file: ./.secrets.example/sa_key.json
+  # configs
+  app_configs:
+    file: ./.configs.example/app_configs.yml

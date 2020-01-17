@@ -8,7 +8,7 @@ RUN apt-get clean
 # global install pm2
 RUN npm install pm2 -g
 
-WORKDIR /server
+WORKDIR /server/app
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied

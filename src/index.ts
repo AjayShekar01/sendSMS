@@ -1,4 +1,12 @@
 import express from 'express';
+import { appSecrets, serviceAccountKey } from './config/secrets';
+// import { appConfigs } from './config/configs';
+import appConfigs from './config/configs';
+import logger from './util/logger';
+
+logger.verbose(appConfigs);
+logger.verbose(appSecrets);
+logger.verbose(serviceAccountKey);
 
 const app = express();
 const port = 3000;
@@ -6,7 +14,11 @@ const port = 3000;
 app.get('/', (req, res) => {
   // res.send("The sedulous hyena ate the antelope!");
   res.send('The lion ate the antelope!');
-  console.log('hello');
+  logger.error('Hello');
+  logger.warn('Hello');
+  logger.info('Hello');
+  logger.verbose('Hello');
+  logger.debug('Hello');
 });
 // const reallyLongArg = () => {};
 // const omgSoManyParameters = () => {

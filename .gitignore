@@ -9,3 +9,6 @@ node_modules
 
 # Ignore built ts files
 dist/**/*
+
+# Docker mounts
+mount-*
