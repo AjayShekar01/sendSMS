@@ -1,0 +1,55 @@
+openapi: 3.0.0
+info:
+  title: "API"
+  version: "1.0.0"
+
+servers:
+  - url: localhost:3000/api/v2
+
+# Endpoints
+paths:
+  /sendsms:
+    post:
+      description: send sms to specified number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              #  ----- Added line  ----------------------------------------
+              $ref: '#/components/schemas/Text'
+      responses:
+      # Response code
+        200:
+          description: Status of text sent
+          content:
+            application/json:
+              schema:
+                type: string
+                                  
+        500:
+          description: Message not sent
+
+components:
+  schemas:
+    Text:
+      type: object
+      required:
+        - phone
+        - text
+      properties:
+        name:
+          type: string
+        phone:
+          type: string
+        text:
+          type: string
+
+
+
+  
+
+        
+
+                   
+                   

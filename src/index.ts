@@ -1,25 +1,78 @@
 import express from 'express';
-import { appSecrets, serviceAccountKey } from './config/secrets';
-// import { appConfigs } from './config/configs';
-import appConfigs from './config/configs';
-import logger from './util/logger';
 
-logger.verbose(appConfigs);
-logger.verbose(appSecrets);
-logger.verbose(serviceAccountKey);
+const unirest = require('unirest');
+
+const { OpenApiValidator } = require('express-openapi-validator');
+const ErrorResponse = require('./util/errorResponse');
+const errorHandler = require('./util/error');
+// import { appSecrets, serviceAccountKey } from './config/secrets';
+// import { appConfigs } from './config/configs';
+// import appConfigs from './config/configs';
+// import logger from './util/logger';
+
+// logger.verbose(appConfigs);
+// logger.verbose(appSecrets);
+// logger.verbose(serviceAccountKey);
 
 const app = express();
+
+// Body parser
+app.use(express.json());
+
 const port = 3000;
 
-app.get('/', (req, res) => {
-  // res.send("The sedulous hyena ate the antelope!");
-  res.send('The lion ate the antelope!');
-  logger.error('Hello');
-  logger.warn('Hello');
-  logger.info('Hello');
-  logger.verbose('Hello');
-  logger.debug('Hello');
-});
+new OpenApiValidator({
+  apiSpec:
+    '/home/ajay/apps/NodeMessage/sample-ts-server/_data/openapispec.yaml',
+  validateResponses: true, // <-- to validate responses
+  validateRequests: true,
+  // unknownFormats: ['my-format'] // <-- to provide custom formats
+})
+  .install(app)
+  .then(() => {
+    
+
+    app.post('/api/v2/sendsms', (req, res, next) => {
+      const { name, phone, text } = req.body;
+      const status: number = 200;
+      const reqst = unirest('POST', 'https://www.fast2sms.com/dev/bulk');
+
+      reqst.headers({
+        authorization:
+          'yIKi5ZSsT6qnaQCLoMxtp97bD2BvkGwjerANHzlRXJdcFVm4fuJTfY9MdLNXrvEUIwgR7a3OicFxqQzp',
+      });
+
+      reqst.form({
+        sender_id: 'FSTSMS',
+        message: `This is a test message ${text}`,
+        language: 'english',
+        route: 'p',
+        numbers: phone,
+      });
+
+      reqst.end(function(resp: any) {
+        if (resp.error) {
+          console.log(
+            `Failure: message is not sent to ${name} : ${resp.body.message}`,
+          );
+          next(
+            new ErrorResponse(
+              `Failure: message is not sent to ${name} : ${resp.body.message}`,
+              400,
+            ),
+          );
+        } else {
+          console.log(
+            `Success: message is sent to ${name} ${resp.body.message}`,
+          );
+          res.status(200).send('Message sent');
+        }
+      });
+    });
+
+    app.use(errorHandler);
+  });
+
 // const reallyLongArg = () => {};
 // const omgSoManyParameters = () => {
 //   //
